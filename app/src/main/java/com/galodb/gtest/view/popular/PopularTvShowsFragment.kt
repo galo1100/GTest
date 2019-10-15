@@ -14,6 +14,7 @@ import com.galodb.gtest.utils.extensions.observe
 import com.galodb.gtest.view.MainActivity
 import com.galodb.gtest.view.MainViewModel
 import com.galodb.gtest.view.base.BaseFragment
+import com.galodb.gtest.view.detail.TvShowDetailFragment
 import com.galodb.gtest.view.popular.adapter.PopularTvShowsAdapter
 import kotlinx.android.synthetic.main.fragment_popular_tv_shows.*
 
@@ -97,7 +98,8 @@ class PopularTvShowsFragment : BaseFragment() {
 
 
     private fun onTvShowClicked(tvShowModel: TvShowModel) {
-        //TODO
+        viewModel.currentTvShow = tvShowModel
+        mainActivity?.replaceSlideFragment(R.id.fragmentContainer, TvShowDetailFragment.create())
     }
 
     private fun popularTVShowsError(message: Any) = mainActivity?.showError(message)

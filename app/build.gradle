@@ -59,7 +59,7 @@ dependencies {
     //Appcompat
     implementation "androidx.appcompat:appcompat:${libsVersions.androidx}"
     implementation "androidx.core:core-ktx:${libsVersions.androidx}"
-    implementation "androidx.recyclerview:recyclerview:${libsVersions.recycler}"
+    implementation "com.google.android.material:material:${libsVersions.design}"
 
     //Constraint Layout
     implementation "com.android.support.constraint:constraint-layout:${libsVersions.constraint}"

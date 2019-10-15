@@ -2,4 +2,8 @@
     <string name="app_name">GTest</string>
     <string name="generic_error">Generic error</string>
     <string name="internet_connection_error">Internet connection error</string>
+
+    <string name="synopsis">Sipnosis</string>
+    <string name="rate_format">%1$s/10</string>
+
 </resources>

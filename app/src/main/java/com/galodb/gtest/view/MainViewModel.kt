@@ -21,6 +21,8 @@ class MainViewModel @Inject constructor(
     var nextPageToLoad = INITIAL_PAGE
     var getPopularTvShowsLoading = false
 
+    var currentTvShow: TvShowModel? = null
+
     init {
         getPopularTvShows()
     }
