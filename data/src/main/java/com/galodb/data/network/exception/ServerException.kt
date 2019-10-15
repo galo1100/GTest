@@ -1,9 +1,11 @@
 package com.galodb.data.network.exception
 
+import com.galodb.domain.exception.MovieDbException
+
 class ServerException(
     private val errorMessage: String
-) : Exception(errorMessage) {
+) : Exception(errorMessage), MovieDbException {
 
-    fun getErrorMessage() = errorMessage
+    override fun getErrorMessage() = errorMessage
 
 }

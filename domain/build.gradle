@@ -11,6 +11,10 @@ dependencies {
 
     //RX
     implementation libs.rxKotlin
+
+    //Testing
+    testImplementation libs.junit
+    testImplementation libs.mockito
 }
 
 sourceCompatibility = "7"
