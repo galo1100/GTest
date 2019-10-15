@@ -11,11 +11,10 @@ import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-
 class GetPopularTvShowsUseCaseTest {
 
-    private lateinit var usecase: GetPopularTvShosUseCase
-    private lateinit var params: GetPopularTvShosUseCase.Params
+    private lateinit var usecase: GetPopularTvShowsUseCase
+    private lateinit var params: GetPopularTvShowsUseCase.Params
     private lateinit var tvShowModel: TvShowModel
 
     private val repository = mock(Repository::class.java)
@@ -24,8 +23,8 @@ class GetPopularTvShowsUseCaseTest {
 
     @Before
     fun setUp() {
-        usecase = GetPopularTvShosUseCase(repository, threadExecutor, postExecutionThread)
-        params = GetPopularTvShosUseCase.Params(1)
+        usecase = GetPopularTvShowsUseCase(repository, threadExecutor, postExecutionThread)
+        params = GetPopularTvShowsUseCase.Params(1, 2)
         initTvShow()
 
         `when`(
@@ -36,7 +35,7 @@ class GetPopularTvShowsUseCaseTest {
     @Test
     fun `check use case success`() {
         `when`(
-            repository.getPopularTvShows(1)
+            repository.getSeveralPopularTvShows(1, 2)
         ).thenReturn(Single.just(listOf(tvShowModel, tvShowModel, tvShowModel, tvShowModel)))
 
         usecase.buildUseCaseSingle(params).test()
@@ -47,10 +46,10 @@ class GetPopularTvShowsUseCaseTest {
     @Test
     fun `check use case success error`() {
         `when`(
-            repository.getPopularTvShows(0)
+            repository.getSeveralPopularTvShows(0, 2)
         ).thenReturn(Single.error(Exception("Page should start with 1")))
 
-        usecase.buildUseCaseSingle(GetPopularTvShosUseCase.Params(0))
+        usecase.buildUseCaseSingle(GetPopularTvShowsUseCase.Params(0, 2))
             .test()
             .assertError(Exception::class.java)
     }

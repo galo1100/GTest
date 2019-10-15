@@ -87,6 +87,35 @@ class RepositoryImplTest {
             .assertError { !(it as? ServerException)?.getErrorMessage().isNullOrBlank() }
     }
 
+    @Test
+    fun `get several popular test 2 pages`() {
+        val popularTvShowsResponse = PopularTvShowsResponse(1, 10L, 2, listOf(tvShow))
+
+        for (i in 1 until 3) {
+            `when`(api.getPopularTvShows(BuildConfig.API_TOKEN, i))
+                .thenReturn(Single.just(popularTvShowsResponse))
+        }
+
+        val response = repository.getSeveralPopularTvShows(1, 2)
+        response.test()
+            .assertValue { it.size == 2 }
+            .assertValue { it.last().popularity == 100f }
+    }
+
+    @Test
+    fun `get several popular test 8 pages`() {
+        val popularTvShowsResponse = PopularTvShowsResponse(1, 10L, 2, listOf(tvShow))
+
+        for (i in 1 until 9) {
+            `when`(api.getPopularTvShows(BuildConfig.API_TOKEN, i))
+                .thenReturn(Single.just(popularTvShowsResponse))
+        }
+
+        val response = repository.getSeveralPopularTvShows(1, 8)
+        response.test()
+            .assertValue { it.size == 8 }
+            .assertValue { it.last().popularity == 100f }
+    }
 
     private fun initTvShow() {
         tvShow = TvShow(

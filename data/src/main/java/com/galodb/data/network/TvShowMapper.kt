@@ -1,5 +1,6 @@
 package com.galodb.data.network
 
+import com.galodb.data.BuildConfig
 import com.galodb.data.network.entity.response.TvShow
 import com.galodb.domain.model.TvShowModel
 
@@ -22,8 +23,8 @@ object TvShowMapper {
             from.originCountry,
             from.originalLanguage,
             from.firstAirDate,
-            from.backdropPath,
-            from.posterPath
+            BuildConfig.BASE_IMAGE + from.backdropPath,
+            BuildConfig.BASE_IMAGE + from.posterPath
         )
     }
 }

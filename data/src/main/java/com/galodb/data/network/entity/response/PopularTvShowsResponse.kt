@@ -20,7 +20,7 @@ data class TvShow(
     @SerializedName("vote_average") val voteAverage: Float,
     @SerializedName("origin_country") val originCountry: List<String>,
     @SerializedName("original_language") val originalLanguage: String,
-    @SerializedName("first_air_date") val firstAirDate: String,
+    @SerializedName("first_air_date") val firstAirDate: String? = null,
     @SerializedName("backdrop_path") val backdropPath: String? = null,
     @SerializedName("poster_path") val posterPath: String? = null
 )

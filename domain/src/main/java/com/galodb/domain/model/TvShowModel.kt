@@ -11,7 +11,7 @@ data class TvShowModel(
     val voteAverage: Float,
     val originCountry: List<String>,
     val originalLanguage: String,
-    val firstAirDate: String,
+    val firstAirDate: String? = null,
     val backdropPath: String? = null,
     val posterPath: String? = null
 )

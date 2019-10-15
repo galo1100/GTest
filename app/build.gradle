@@ -84,6 +84,9 @@ dependencies {
 
     //Testing
     testImplementation libs.junit
+    testImplementation libs.mockito
+    testImplementation libs.mockito_inline
+    testImplementation libs.arch_core
     androidTestImplementation libs.testrunner
     androidTestImplementation libs.espresso
 }

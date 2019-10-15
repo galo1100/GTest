@@ -7,6 +7,7 @@ def libs = rootProject.ext.libs
 def libsVersions = rootProject.ext.libraries
 
 def API_TOKEN = "API_TOKEN"
+def BASE_IMAGE = "BASE_IMAGE"
 
 android {
     compileSdkVersion cfg.compileSdkVersion
@@ -31,9 +32,11 @@ android {
     productFlavors {
         production {
             buildConfigField "String", API_TOKEN, getMovieDBToken()
+            buildConfigField "String", BASE_IMAGE, project.property('BASE_IMAGE_URL_PRODUCTION')
         }
         develop {
             buildConfigField "String", API_TOKEN, getMovieDBToken()
+            buildConfigField "String", BASE_IMAGE, project.property('BASE_IMAGE_URL_DEVELOP')
         }
     }
 }

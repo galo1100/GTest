@@ -7,17 +7,18 @@ import com.galodb.domain.repository.Repository
 import com.galodb.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-class GetPopularTvShosUseCase(
-    private val repository: Repository, threadExecutor: ThreadExecutor,
+class GetPopularTvShowsUseCase(
+    private val repository: Repository,
+    threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
-) : SingleUseCase<List<TvShowModel>, GetPopularTvShosUseCase.Params>(
+) : SingleUseCase<List<TvShowModel>, GetPopularTvShowsUseCase.Params>(
     threadExecutor,
     postExecutionThread
 ) {
 
     override fun buildUseCaseSingle(params: Params): Single<List<TvShowModel>> {
-        return repository.getPopularTvShows(params.page)
+        return repository.getSeveralPopularTvShows(params.initialPage, params.numberOfPages)
     }
 
-    data class Params(val page: Int)
+    data class Params(val initialPage: Int, val numberOfPages: Int)
 }

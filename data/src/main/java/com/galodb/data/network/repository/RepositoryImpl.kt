@@ -16,4 +16,22 @@ class RepositoryImpl @Inject constructor(
             TvShowMapper.transformToModel(response.results)
         }
     }
+
+    override fun getSeveralPopularTvShows(
+        page: Int,
+        numberOfPages: Int
+    ): Single<List<TvShowModel>> {
+        val singleList = mutableListOf<Single<List<TvShowModel>>>()
+
+        for (i in page until (page + numberOfPages)) {
+            singleList.add(getPopularTvShows(i))
+        }
+
+        return Single.zip(singleList) { list ->
+            list
+                .mapNotNull { it as? List<*> }
+                .flatten()
+                .mapNotNull { it as? TvShowModel }
+        }
+    }
 }

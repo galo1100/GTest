@@ -9,7 +9,10 @@ import dagger.Provides
     includes = [
         ViewModelModule::class,
         ActivityModule::class,
-        RestClientModule::class]
+        RestClientModule::class,
+        RepositoryModule::class,
+        UseCaseModule::class
+    ]
 )
 class AppModule(val app: GTestApp) {
 

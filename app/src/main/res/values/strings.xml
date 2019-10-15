@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GTest</string>
+    <string name="generic_error">Generic error</string>
+    <string name="internet_connection_error">Internet connection error</string>
 </resources>
