@@ -11,6 +11,6 @@ class RestClientModule {
 
     @Provides
     @Singleton
-    fun provideNameRestClient() = GTestClient(BuildConfig.API_URL)
+    fun provideNameRestClient() = GTestClient(BuildConfig.API_URL).api
 
 }

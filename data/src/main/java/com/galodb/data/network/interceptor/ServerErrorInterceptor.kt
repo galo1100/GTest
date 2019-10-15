@@ -20,12 +20,13 @@ class ServerErrorInterceptor : Interceptor {
             if (bodyString != null) {
                 val errorTO: ErrorResponse?
                 try {
-                    errorTO = Gson().fromJson(bodyString, ErrorResponse::class.java) as ErrorResponse
+                    errorTO =
+                        Gson().fromJson(bodyString, ErrorResponse::class.java) as ErrorResponse
                 } catch (e: Exception) {
                     throw ServerException(bodyString)
                 }
 
-                throw ServerException(errorTO.error)
+                throw ServerException(errorTO.statusMessage)
             } else {
                 throw ServerException(response.message())
             }

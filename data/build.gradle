@@ -6,6 +6,8 @@ def cfg = rootProject.ext.configuration
 def libs = rootProject.ext.libs
 def libsVersions = rootProject.ext.libraries
 
+def API_TOKEN = "API_TOKEN"
+
 android {
     compileSdkVersion cfg.compileSdkVersion
 
@@ -27,8 +29,12 @@ android {
     flavorDimensions "default"
 
     productFlavors {
-        production {}
-        develop {}
+        production {
+            buildConfigField "String", API_TOKEN, getMovieDBToken()
+        }
+        develop {
+            buildConfigField "String", API_TOKEN, getMovieDBToken()
+        }
     }
 }
 
@@ -56,7 +62,24 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${libsVersions.interceptor}"
 
     //Testing
+
+    testImplementation "com.squareup.okhttp3:mockwebserver:${libsVersions.mockwebServer}"
+
     testImplementation libs.junit
+    testImplementation libs.mockito
     androidTestImplementation libs.testrunner
     androidTestImplementation libs.espresso
+}
+
+def getMovieDBToken() {
+    def localPropertiesFile = rootProject.file("moviedb.properties")
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(localPropertiesFile))
+
+    def accessToken = localProperties.getProperty("moviedb.token", null)
+    if (accessToken == null) {
+        throw new GradleException(
+                "Please add your moviedb.properties file with the TheMovieDB ApiToken defined")
+    }
+    return accessToken
 }
