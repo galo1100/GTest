@@ -17,7 +17,6 @@ import com.galodb.gtest.view.base.BaseFragment
 import com.galodb.gtest.view.popular.adapter.PopularTvShowsAdapter
 import kotlinx.android.synthetic.main.fragment_popular_tv_shows.*
 
-
 class PopularTvShowsFragment : BaseFragment(), TvShowSafeCheck {
 
     companion object {
@@ -47,8 +46,13 @@ class PopularTvShowsFragment : BaseFragment(), TvShowSafeCheck {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar()
         initObservers()
         initRecycler()
+    }
+
+    private fun initToolbar() {
+        toolbar.title = getString(R.string.discover)
     }
 
     private fun initObservers() {

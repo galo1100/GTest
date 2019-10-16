@@ -59,7 +59,6 @@ class TvShowDetailFragment : BaseFragment(), TvShowSafeCheck {
 
     private fun initToolbar() {
         collapsingToolbar.title = viewModel.currentTvShow?.name
-
     }
 
     private fun initRecycler() {

@@ -20,6 +20,8 @@ android {
         versionName "${cfg.version_versionMajor}.${cfg.version_versionMinor}.${cfg.version_versionPatch}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -89,4 +91,7 @@ dependencies {
     testImplementation libs.arch_core
     androidTestImplementation libs.testrunner
     androidTestImplementation libs.espresso
+    androidTestImplementation libs.espresso_contrib
+    androidTestImplementation libs.android_rules
+    androidTestImplementation libs.android_runner
 }

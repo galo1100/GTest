@@ -28,6 +28,6 @@ class PopularTvShowView @JvmOverloads constructor(
         tvShowImage.loadImage(model.posterPath)
 
         tvShowName.text = model.name
-        tvShowsRate.text = model.voteAverage.toString()
+        tvShowsRate.text = context.getString(R.string.rate_format, model.voteAverage.toString())
     }
 }

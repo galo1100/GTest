@@ -1,7 +1,6 @@
 package com.galodb.gtest.view
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.galodb.domain.model.TvShowModel
 import com.galodb.gtest.R
@@ -9,7 +8,6 @@ import com.galodb.gtest.utils.extensions.getViewModel
 import com.galodb.gtest.view.base.BaseActivity
 import com.galodb.gtest.view.detail.TvShowDetailFragment
 import com.galodb.gtest.view.popular.PopularTvShowsFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
