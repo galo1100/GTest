@@ -2,8 +2,10 @@ package com.galodb.gtest.di.module
 
 import com.galodb.domain.executor.PostExecutionThread
 import com.galodb.domain.executor.ThreadExecutor
-import com.galodb.domain.repository.Repository
+import com.galodb.domain.repository.PopularTvShowsRepository
+import com.galodb.domain.repository.SimilarTvShowsRepository
 import com.galodb.domain.usecase.GetPopularTvShowsUseCase
+import com.galodb.domain.usecase.GetSimilarTvShowsUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -12,12 +14,20 @@ class UseCaseModule {
 
     @Provides
     fun getPopularTvShows(
-        repository: Repository,
+        repository: PopularTvShowsRepository,
         threadExecutor: ThreadExecutor,
         postExecutionThread: PostExecutionThread
-    )
-            : GetPopularTvShowsUseCase {
+    ): GetPopularTvShowsUseCase {
         return GetPopularTvShowsUseCase(repository, threadExecutor, postExecutionThread)
+    }
+
+    @Provides
+    fun getSimilarTvShows(
+        repository: SimilarTvShowsRepository,
+        threadExecutor: ThreadExecutor,
+        postExecutionThread: PostExecutionThread
+    ): GetSimilarTvShowsUseCase {
+        return GetSimilarTvShowsUseCase(repository, threadExecutor, postExecutionThread)
     }
 
 }

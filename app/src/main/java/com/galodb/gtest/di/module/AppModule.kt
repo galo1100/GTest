@@ -11,7 +11,8 @@ import dagger.Provides
         ActivityModule::class,
         RestClientModule::class,
         RepositoryModule::class,
-        UseCaseModule::class
+        UseCaseModule::class,
+        MapperModule::class
     ]
 )
 class AppModule(val app: GTestApp) {

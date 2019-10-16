@@ -3,9 +3,11 @@ package com.galodb.gtest.view
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.galodb.domain.model.TvShowModel
 import com.galodb.gtest.R
 import com.galodb.gtest.utils.extensions.getViewModel
 import com.galodb.gtest.view.base.BaseActivity
+import com.galodb.gtest.view.detail.TvShowDetailFragment
 import com.galodb.gtest.view.popular.PopularTvShowsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -35,13 +37,10 @@ class MainActivity : BaseActivity() {
         fragmentTransaction.commit()
     }
 
-    fun showLoading(show: Boolean) {
-        if (show) loadingView.visibility = View.VISIBLE
-        else loadingView.visibility = View.GONE
-    }
+    fun showError(error: Any?) = onError(error)
 
-    fun showError(error: Any?) {
-        if (loadingView.visibility == View.VISIBLE) showLoading(false)
-        onError(error)
+    fun onTvShowClicked(tvShowModel: TvShowModel) {
+        viewModel.currentTvShow = tvShowModel
+        replaceSlideFragment(R.id.fragmentContainer, TvShowDetailFragment.create())
     }
 }

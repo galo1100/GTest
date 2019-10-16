@@ -1,34 +1,34 @@
 package com.galodb.data.repository
 
 import com.galodb.data.BuildConfig
+import com.galodb.data.mapper.TvShowMapper
 import com.galodb.data.network.GTestApi
-import com.galodb.data.network.entity.response.PopularTvShowsResponse
-import com.galodb.data.network.entity.response.TvShow
+import com.galodb.data.network.entity.response.TvShowsListResponse
 import com.galodb.data.network.exception.ServerException
-import com.galodb.data.network.repository.RepositoryImpl
+import com.galodb.data.utils.TestUtil
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-class RepositoryImplTest {
+class PopularTvShowsRepositoryImplTest {
 
-    private lateinit var repository: RepositoryImpl
-    private lateinit var tvShow: TvShow
+    private lateinit var repository: PopularTvShowsRepositoryImpl
+
+    private val tvShow = TestUtil.createTvShow()
 
     private val api = mock(GTestApi::class.java)
+    private val tvShowMapper = TvShowMapper()
 
     @Before
     fun setUp() {
-        repository = RepositoryImpl(api)
-
-        initTvShow()
+        repository = PopularTvShowsRepositoryImpl(api, tvShowMapper)
     }
 
     @Test
     fun `get popular tv show first page`() {
-        val popularTvShowsResponse = PopularTvShowsResponse(1, 10L, 2, listOf(tvShow))
+        val popularTvShowsResponse = TvShowsListResponse(1, 10L, 2, listOf(tvShow))
 
         `when`(
             api.getPopularTvShows(
@@ -45,7 +45,7 @@ class RepositoryImplTest {
 
     @Test
     fun `get popular tv show empty page`() {
-        val popularTvShowsResponse = PopularTvShowsResponse(5, 10L, 2, listOf())
+        val popularTvShowsResponse = TvShowsListResponse(5, 10L, 2, listOf())
 
         `when`(
             api.getPopularTvShows(
@@ -89,7 +89,7 @@ class RepositoryImplTest {
 
     @Test
     fun `get several popular test 2 pages`() {
-        val popularTvShowsResponse = PopularTvShowsResponse(1, 10L, 2, listOf(tvShow))
+        val popularTvShowsResponse = TvShowsListResponse(1, 10L, 2, listOf(tvShow))
 
         for (i in 1 until 3) {
             `when`(api.getPopularTvShows(BuildConfig.API_TOKEN, i))
@@ -104,7 +104,7 @@ class RepositoryImplTest {
 
     @Test
     fun `get several popular test 8 pages`() {
-        val popularTvShowsResponse = PopularTvShowsResponse(1, 10L, 2, listOf(tvShow))
+        val popularTvShowsResponse = TvShowsListResponse(1, 10L, 2, listOf(tvShow))
 
         for (i in 1 until 9) {
             `when`(api.getPopularTvShows(BuildConfig.API_TOKEN, i))
@@ -115,23 +115,5 @@ class RepositoryImplTest {
         response.test()
             .assertValue { it.size == 8 }
             .assertValue { it.last().popularity == 100f }
-    }
-
-    private fun initTvShow() {
-        tvShow = TvShow(
-            1,
-            "Batwoman",
-            "",
-            100f,
-            "Batwoman",
-            listOf(),
-            500,
-            7.7f,
-            listOf(),
-            "",
-            "",
-            "",
-            ""
-        )
     }
 }

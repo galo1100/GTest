@@ -3,6 +3,7 @@ package com.galodb.gtest.view
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.galodb.domain.model.TvShowModel
 import com.galodb.domain.usecase.GetPopularTvShowsUseCase
+import com.galodb.domain.usecase.GetSimilarTvShowsUseCase
 import com.galodb.gtest.utils.NetworkViewState
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.instanceOf
@@ -30,6 +31,7 @@ class MainViewModelTest {
     private val tvShowModel: TvShowModel = initTvShow()
 
     private val getPopularTvShows = mock(GetPopularTvShowsUseCase::class.java)
+    private val getSimilarTvShows = mock(GetSimilarTvShowsUseCase::class.java)
 
     private val firstCallParams = GetPopularTvShowsUseCase.Params(1, 3)
 
@@ -43,7 +45,7 @@ class MainViewModelTest {
             getPopularTvShows.execute(firstCallParams)
         ).thenReturn(Single.just(pageResponse))
 
-        mainViewModel = MainViewModel(getPopularTvShows)
+        mainViewModel = MainViewModel(getPopularTvShows, getSimilarTvShows)
     }
 
     @Test
@@ -97,6 +99,45 @@ class MainViewModelTest {
             instanceOf(NetworkViewState.Error::class.java)
         )
     }
+
+    @Test
+    fun `test similar tv shows success`() {
+        mainViewModel.currentTvShow = tvShowModel
+
+        val params = GetSimilarTvShowsUseCase.Params(1)
+
+        Mockito.`when`(
+            getSimilarTvShows.execute(params)
+        ).thenReturn(Single.just(pageResponse))
+
+        mainViewModel.getSimilarTvShows()
+
+        verify(getSimilarTvShows, times(1)).execute(params)
+        Assert.assertThat(
+            mainViewModel.similarTvShowsState.value,
+            instanceOf(NetworkViewState.Success::class.java)
+        )
+    }
+
+    @Test
+    fun `test similar tv shows error`() {
+        mainViewModel.currentTvShow = tvShowModel
+
+        val params = GetSimilarTvShowsUseCase.Params(1)
+
+        Mockito.`when`(
+            getSimilarTvShows.execute(params)
+        ).thenReturn(Single.error(IOException()))
+
+        mainViewModel.getSimilarTvShows()
+
+        verify(getSimilarTvShows, times(1)).execute(params)
+        Assert.assertThat(
+            mainViewModel.similarTvShowsState.value,
+            instanceOf(NetworkViewState.Error::class.java)
+        )
+    }
+
 
     private fun initTvShow() =
         TvShowModel(

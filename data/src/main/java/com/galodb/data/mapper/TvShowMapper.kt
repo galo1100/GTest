@@ -1,10 +1,10 @@
-package com.galodb.data.network
+package com.galodb.data.mapper
 
 import com.galodb.data.BuildConfig
 import com.galodb.data.network.entity.response.TvShow
 import com.galodb.domain.model.TvShowModel
 
-object TvShowMapper {
+class TvShowMapper {
 
     fun transformToModel(from: List<TvShow>): List<TvShowModel> {
         return from.map { tvShow -> transformToModel(tvShow) }

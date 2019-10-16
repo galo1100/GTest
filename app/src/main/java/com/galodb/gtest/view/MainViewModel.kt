@@ -3,12 +3,14 @@ package com.galodb.gtest.view
 import androidx.lifecycle.MutableLiveData
 import com.galodb.domain.model.TvShowModel
 import com.galodb.domain.usecase.GetPopularTvShowsUseCase
+import com.galodb.domain.usecase.GetSimilarTvShowsUseCase
 import com.galodb.gtest.utils.NetworkViewState
 import com.galodb.gtest.view.base.BaseViewModel
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val getPopularTvShows: GetPopularTvShowsUseCase
+    private val getPopularTvShows: GetPopularTvShowsUseCase,
+    private val getSimilarTvShows: GetSimilarTvShowsUseCase
 ) : BaseViewModel() {
 
     companion object {
@@ -17,6 +19,7 @@ class MainViewModel @Inject constructor(
     }
 
     val popularTvShowsState: MutableLiveData<NetworkViewState> = MutableLiveData()
+    val similarTvShowsState: MutableLiveData<NetworkViewState> = MutableLiveData()
 
     var nextPageToLoad = INITIAL_PAGE
     var getPopularTvShowsLoading = false
@@ -37,6 +40,22 @@ class MainViewModel @Inject constructor(
                 { tvShows -> getPopularTvShowsSuccess(tvShows) },
                 { error -> getPopularTvShowsError(error) }
             )
+    }
+
+    fun getSimilarTvShows() {
+        currentTvShow?.let { tvShow ->
+            getSimilarTvShows
+                .execute(GetSimilarTvShowsUseCase.Params(tvShow.id))
+                .doOnSubscribe { similarTvShowsState.value = NetworkViewState.Loading }
+                .subscribeDisposable(
+                    { tvShows ->
+                        similarTvShowsState.value = NetworkViewState.Success(tvShows)
+                    },
+                    { error ->
+                        similarTvShowsState.value = NetworkViewState.Error(error)
+                    }
+                )
+        }
     }
 
     private fun getPopularTvShowsSuccess(tvShows: List<TvShowModel>) {

@@ -3,7 +3,7 @@ package com.galodb.domain.usecase
 import com.galodb.domain.executor.PostExecutionThread
 import com.galodb.domain.executor.ThreadExecutor
 import com.galodb.domain.model.TvShowModel
-import com.galodb.domain.repository.PopularTvShowsRepository
+import com.galodb.domain.repository.SimilarTvShowsRepository
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import org.junit.Before
@@ -11,20 +11,20 @@ import org.junit.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
-class GetPopularTvShowsUseCaseTest {
+class GetSimilarTvShowsUseCaseTest {
 
-    private lateinit var usecase: GetPopularTvShowsUseCase
-    private lateinit var params: GetPopularTvShowsUseCase.Params
+    private lateinit var usecase: GetSimilarTvShowsUseCase
+    private lateinit var params: GetSimilarTvShowsUseCase.Params
     private lateinit var tvShowModel: TvShowModel
 
-    private val repository = mock(PopularTvShowsRepository::class.java)
+    private val repository = mock(SimilarTvShowsRepository::class.java)
     private val threadExecutor = mock(ThreadExecutor::class.java)
     private val postExecutionThread = mock(PostExecutionThread::class.java)
 
     @Before
     fun setUp() {
-        usecase = GetPopularTvShowsUseCase(repository, threadExecutor, postExecutionThread)
-        params = GetPopularTvShowsUseCase.Params(1, 2)
+        usecase = GetSimilarTvShowsUseCase(repository, threadExecutor, postExecutionThread)
+        params = GetSimilarTvShowsUseCase.Params(1)
         initTvShow()
 
         `when`(
@@ -35,7 +35,7 @@ class GetPopularTvShowsUseCaseTest {
     @Test
     fun `check use case success`() {
         `when`(
-            repository.getSeveralPopularTvShows(1, 2)
+            repository.getSimilarTvShows(1)
         ).thenReturn(Single.just(listOf(tvShowModel, tvShowModel, tvShowModel, tvShowModel)))
 
         usecase.buildUseCaseSingle(params).test()
@@ -46,10 +46,10 @@ class GetPopularTvShowsUseCaseTest {
     @Test
     fun `check use case success error`() {
         `when`(
-            repository.getSeveralPopularTvShows(0, 2)
-        ).thenReturn(Single.error(Exception("Page should start with 1")))
+            repository.getSimilarTvShows(1)
+        ).thenReturn(Single.error(Exception("No resource found")))
 
-        usecase.buildUseCaseSingle(GetPopularTvShowsUseCase.Params(0, 2))
+        usecase.buildUseCaseSingle(GetSimilarTvShowsUseCase.Params(1))
             .test()
             .assertError(Exception::class.java)
     }

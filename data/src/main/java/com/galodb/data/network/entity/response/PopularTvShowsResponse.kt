@@ -2,7 +2,7 @@ package com.galodb.data.network.entity.response
 
 import com.google.gson.annotations.SerializedName
 
-data class PopularTvShowsResponse(
+data class TvShowsListResponse(
     val page: Int,
     @SerializedName("total_results") val totalResults: Long,
     @SerializedName("total_pages") val totalPages: Int,
