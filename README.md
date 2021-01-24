@@ -25,5 +25,5 @@ show in a separate screen.
 exploring the provided API).
 - The user should be able to navigate between similar tv shows by swiping horizontally or by
 adding a section to the detail view with a horizontal view that includes the similar shows.
-- Use this endpoint to get Similar shows
+- Use this endpoint to get Similar Shows
 (https://developers.themoviedb.org/3/tv/get-similar-tv-shows)
